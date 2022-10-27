@@ -70,7 +70,9 @@ class ViewController: UIViewController {
     
     func createVideoScreen(width: Float, height: Float) -> ModelEntity {
         let plane = MeshResource.generatePlane(width: width, height: height)
-        let videoItem = createVideoItem(with: "tomandjerry")
+        // https://www.yout-ube.com/watch?v=XHhbeRJudY4?autoplay=1
+        //https://p-events-delivery.akamaized.net/2605bdtgclbnfypwzfkzdsupvcyzhhbx/m3u8/hls_vod_mvp.m3u8
+        let videoItem = createVideoItem(with: "https://mehequanna.github.io/testvideos/rain.mp4")
         let videoMaterial = createVideoMaterial(videoItem: videoItem)
         
         let videoScreenModel = ModelEntity(mesh: plane, materials: [videoMaterial])
@@ -78,12 +80,16 @@ class ViewController: UIViewController {
         return videoScreenModel
     }
     
-    func createVideoItem(with filename: String) -> AVPlayerItem? {
-        // TODO use different video
-        guard let videoUrl = Bundle.main.url(forResource: "tomandjerry", withExtension: ".mp4") else {
-            print("Video not found in bundle.")
-            return nil
+    func createVideoItem(with hyperlink: String) -> AVPlayerItem? {
+//        guard let videoUrl = Bundle.main.url(forResource: "tomandjerry", withExtension: ".mp4") else {
+//            print("Video not found in bundle.")
+//            return nil
+//        }
+
+        guard let videoUrl = URL(string: hyperlink) else {
+          return nil
         }
+        
         
         let asset = AVURLAsset(url: videoUrl)
         let videoItem = AVPlayerItem(asset: asset)
@@ -110,6 +116,10 @@ class ViewController: UIViewController {
         siri.speak(content)
     }
 }
+
+// https://youtu.be/XHhbeRJudY4
+
+
 
 // MARK: ARSessionDelegate
 
