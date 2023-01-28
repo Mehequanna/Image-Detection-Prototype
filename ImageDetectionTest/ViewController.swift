@@ -11,7 +11,7 @@ import ARKit
 import AVKit
 
 enum ARReferenceImageNames : String {
-    case bridge, jungle
+    case bridge, jungle, standing
 }
 
 class ViewController: UIViewController {
@@ -68,11 +68,9 @@ class ViewController: UIViewController {
     
     //MARK: - Video Screen
     
-    func createVideoScreen(width: Float, height: Float) -> ModelEntity {
+    func createVideoScreen(videoItem: AVPlayerItem?, width: Float, height: Float) -> ModelEntity {
         let plane = MeshResource.generatePlane(width: width, height: height)
         
-        // Link needs to be to the actual mp4 file.
-        let videoItem = createVideoItem(with: "https://mehequanna.github.io/testvideos/rain.mp4")
         let videoMaterial = createVideoMaterial(videoItem: videoItem)
         
         let videoScreenModel = ModelEntity(mesh: plane, materials: [videoMaterial])
@@ -139,13 +137,26 @@ extension ViewController: ARSessionDelegate {
             if let imageAnchor = anchor as? ARImageAnchor,
                let imageName = imageAnchor.name {
                 
+                let width = Float(imageAnchor.referenceImage.physicalSize.width)
+                let height = Float(imageAnchor.referenceImage.physicalSize.height)
+                
+                // TODO recreate the AVPlayer and set data class for items
+                
                 if imageName == ARReferenceImageNames.bridge.rawValue {
                     siri.stopSpeaking(at: .immediate)
                     
-                    // Create video material
-                    let width = Float(imageAnchor.referenceImage.physicalSize.width)
-                    let height = Float(imageAnchor.referenceImage.physicalSize.height)
-                    let videoScreen = createVideoScreen(width: width, height: height)
+                    // Link needs to be to the actual mp4 file.
+                    let videoItem = createVideoItem(with: "https://mehequanna.github.io/testvideos/rain.mp4")
+                    let videoScreen = createVideoScreen(videoItem: videoItem, width: width, height: height)
+                    
+                    // Place video material on image.
+                    placeVideoScreen(videoScreen: videoScreen, imageAnchor: imageAnchor)
+                } else if imageName == ARReferenceImageNames.standing.rawValue {
+                    siri.stopSpeaking(at: .immediate)
+                    
+                    // Link needs to be to the actual mp4 file.
+                    let videoItem = createVideoItem(with: "https://mehequanna.github.io/testvideos/protest.mp4")
+                    let videoScreen = createVideoScreen(videoItem: videoItem, width: width, height: height)
                     
                     // Place video material on image.
                     placeVideoScreen(videoScreen: videoScreen, imageAnchor: imageAnchor)
