@@ -140,18 +140,20 @@ extension ViewController: ARSessionDelegate {
                 let width = Float(imageAnchor.referenceImage.physicalSize.width)
                 let height = Float(imageAnchor.referenceImage.physicalSize.height)
                 
-                // TODO recreate the AVPlayer and set data class for items
+                // TODO: recreate the AVPlayer and set data class for items
                 
-                if imageName == ARReferenceImageNames.bridge.rawValue {
-                    siri.stopSpeaking(at: .immediate)
-                    
-                    // Link needs to be to the actual mp4 file.
-                    let videoItem = createVideoItem(with: "https://mehequanna.github.io/testvideos/rain.mp4")
-                    let videoScreen = createVideoScreen(videoItem: videoItem, width: width, height: height)
-                    
-                    // Place video material on image.
-                    placeVideoScreen(videoScreen: videoScreen, imageAnchor: imageAnchor)
-                } else if imageName == ARReferenceImageNames.standing.rawValue {
+                // TODO: Fix issue with multiple videos
+//                if imageName == ARReferenceImageNames.bridge.rawValue {
+//                    siri.stopSpeaking(at: .immediate)
+//
+//                    // Link needs to be to the actual mp4 file.
+//                    let videoItem = createVideoItem(with: "https://mehequanna.github.io/testvideos/rain.mp4")
+//                    let videoScreen = createVideoScreen(videoItem: videoItem, width: width, height: height)
+//
+//                    // Place video material on image.
+//                    placeVideoScreen(videoScreen: videoScreen, imageAnchor: imageAnchor)
+//                } else
+                if imageName == ARReferenceImageNames.standing.rawValue {
                     siri.stopSpeaking(at: .immediate)
                     
                     // Link needs to be to the actual mp4 file.
@@ -171,6 +173,22 @@ extension ViewController: ARSessionDelegate {
             }
         }
     }
+    
+    
+    // TODO: Use one of these to stop video?
+//    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+//        if !arView.isNode(videoPlayerNode, insideFrustumOf: arView.pointOfView) {
+//            videoPlayerNode?.pause()
+//        }
+//    }
+    
+//
+//    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
+//        print("Stephen: \(anchors.count) \(anchors.first?.name)")
+//
+//        // TODO: Use this to find nodes?
+//        anchors.first?.name
+//    }
     
     // Handle reusing anchors to restart videos.
     
